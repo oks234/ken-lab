@@ -1,8 +1,13 @@
 {
-  "trailingComma": "es5",
-  "tabWidth": 2,
-  "semi": false,
+  "arrowParens": "always",
+  "bracketSameLine": false,
+  "bracketSpacing": true,
+  "endOfLine": "lf",
+  "jsxSingleQuote": false,
+  "printWidth": 80,
   "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "es5",
   "overrides": [
     {
       "files": ["*.html"],
