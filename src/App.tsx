@@ -1,17 +1,19 @@
+import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router";
+import AuthLayout from "./components/auth-layout";
 import Layout from "./components/layout";
+import LoadingScreen from "./components/loading-screen";
+import { auth } from "./firebase";
 import Home from "./routes/home";
 import Join from "./routes/join";
 import Login from "./routes/login";
 import Logout from "./routes/logout";
 import Qt from "./routes/qt";
-import AuthLayout from "./components/auth-layout";
-import { useEffect, useState } from "react";
-import LoadingScreen from "./components/loading-screen";
 
 function App() {
   const [isLoading, setLoading] = useState(true);
   const init = async () => {
+    await auth.authStateReady();
     setLoading(false);
   };
   useEffect(() => {
