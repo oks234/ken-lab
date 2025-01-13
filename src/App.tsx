@@ -6,22 +6,37 @@ import Login from "./routes/login";
 import Logout from "./routes/logout";
 import Qt from "./routes/qt";
 import AuthLayout from "./components/auth-layout";
+import { useEffect, useState } from "react";
+import LoadingScreen from "./components/loading-screen";
 
 function App() {
+  const [isLoading, setLoading] = useState(true);
+  const init = async () => {
+    setLoading(false);
+  };
+  useEffect(() => {
+    init();
+  }, []);
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route index element={<Home />}></Route>
-          <Route path="qt" element={<Qt />}></Route>
-        </Route>
-        <Route element={<AuthLayout />}>
-          <Route path="join" element={<Join />}></Route>
-          <Route path="login" element={<Login />}></Route>
-          <Route path="logout" element={<Logout />}></Route>
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <>
+      {isLoading ? (
+        <LoadingScreen />
+      ) : (
+        <BrowserRouter>
+          <Routes>
+            <Route element={<Layout />}>
+              <Route index element={<Home />}></Route>
+              <Route path="qt" element={<Qt />}></Route>
+            </Route>
+            <Route element={<AuthLayout />}>
+              <Route path="join" element={<Join />}></Route>
+              <Route path="login" element={<Login />}></Route>
+              <Route path="logout" element={<Logout />}></Route>
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      )}
+    </>
   );
 }
 
