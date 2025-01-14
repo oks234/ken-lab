@@ -7,8 +7,8 @@ import { auth } from "./firebase";
 import Home from "./routes/home";
 import Join from "./routes/join";
 import Login from "./routes/login";
-import Logout from "./routes/logout";
 import Qt from "./routes/qt";
+import ProtectedRoute from "./components/protected-route";
 
 function App() {
   const [isLoading, setLoading] = useState(true);
@@ -26,14 +26,25 @@ function App() {
       ) : (
         <BrowserRouter>
           <Routes>
-            <Route element={<Layout />}>
+            <Route
+              element={
+                <ProtectedRoute userOnly>
+                  <Layout />
+                </ProtectedRoute>
+              }
+            >
               <Route index element={<Home />}></Route>
               <Route path="qt" element={<Qt />}></Route>
             </Route>
-            <Route element={<AuthLayout />}>
+            <Route
+              element={
+                <ProtectedRoute>
+                  <AuthLayout />
+                </ProtectedRoute>
+              }
+            >
               <Route path="join" element={<Join />}></Route>
               <Route path="login" element={<Login />}></Route>
-              <Route path="logout" element={<Logout />}></Route>
             </Route>
           </Routes>
         </BrowserRouter>
