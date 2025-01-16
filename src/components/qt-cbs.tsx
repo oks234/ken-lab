@@ -42,7 +42,7 @@ export default function QtCbs() {
         setCbs(cbs as ICbs);
       }
     })();
-  });
+  }, []);
 
   return (
     <section>
