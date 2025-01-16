@@ -1,9 +1,11 @@
-import { useState } from "react";
-import { API_BASE_URL } from "../constants";
+import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
+import { API_BASE_URL, dateString } from "../constants";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../firebase";
 
 interface ICbs {
-  isoDate: string;
+  dateString: string;
   mp3: string;
 }
 
@@ -15,14 +17,32 @@ export default function QtCbs() {
     try {
       setLoading(true);
       const res = await fetch(API_BASE_URL + "bible-today/cbs");
-      const cbs = await res.json();
+      const { mp3 } = await res.json();
+      const cbs = { dateString, mp3 };
       setCbs(cbs);
+      await addDoc(collection(db, "todayBibleAudios"), cbs);
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      const audiosQuery = await getDocs(
+        query(
+          collection(db, "todayBibleAudios"),
+          where("dateString", "==", dateString)
+        )
+      );
+
+      if (!audiosQuery.empty) {
+        const cbs = audiosQuery.docs[0].data();
+        setCbs(cbs as ICbs);
+      }
+    })();
+  });
 
   return (
     <section>
