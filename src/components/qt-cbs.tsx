@@ -38,8 +38,8 @@ export default function QtCbs() {
       );
 
       if (!audiosQuery.empty) {
-        const cbs = audiosQuery.docs[0].data();
-        setCbs(cbs as ICbs);
+        const cbs = audiosQuery.docs[0].data() as ICbs;
+        setCbs(cbs);
       }
     })();
   }, []);
