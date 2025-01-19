@@ -9,8 +9,7 @@ export default function Qt() {
         오늘의 묵상 - <span>{new Date().toLocaleDateString()}</span>{" "}
         <span>{days[new Date().getDay()]}</span>
       </h1>
-      <QtBody translation="개역개정" />
-      {/* <QtBody translation="새번역" /> */}
+      <QtBody />
       <QtCbs />
     </div>
   );
