@@ -57,7 +57,7 @@ export default function QtCbs() {
 
   return (
     <section>
-      <h2>CBS</h2>
+      <h2>CBS (박대영 목사님)</h2>
       {cbs ? (
         <audio controls className="w-full">
           <source src={cbs.mp3}></source>

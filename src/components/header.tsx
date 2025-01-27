@@ -10,8 +10,9 @@ export default function Header() {
       replace: true,
     });
   };
+  console.log(auth.currentUser);
   return (
-    <header className="h-12 flex items-center justify-center">
+    <header className="flex items-center justify-center h-12">
       <nav>
         <ul className="flex gap-x-2">
           <li>

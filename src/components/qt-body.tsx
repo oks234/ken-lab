@@ -38,8 +38,8 @@ function Verses({ verses }: { verses: IVerse[] }) {
       className="grid grid-cols-[2rem_auto] gap-x-1 gap-y-1 leading-normal"
       style={style}
     >
-      {verses.map((verse) => (
-        <Verse key={verse.num} {...verse} />
+      {verses.map((verse, index) => (
+        <Verse key={`${verse.num}-${index}`} {...verse} />
       ))}
     </div>
   );
@@ -47,6 +47,22 @@ function Verses({ verses }: { verses: IVerse[] }) {
 
 export default function QtBody() {
   const [qtBody, setQtBody] = useState<IQtBody>();
+
+  async function copy() {
+    if (!qtBody) return alert("복사할 내용이 없습니다.");
+    const content = ""
+      .concat(`${qtBody.koTitle} ${qtBody.range}\n\n`)
+      .concat(
+        qtBody.verses.reduce(
+          (result, verse, index) =>
+            result + (index === 0 ? "" : "\n") + verse.num + " " + verse.info,
+          ""
+        )
+      );
+      await navigator.clipboard.writeText(content);
+      alert('본문을 복사했습니다.\n\n' + content);
+    return content;
+  }
 
   useEffect(() => {
     (async () => {
@@ -78,8 +94,16 @@ export default function QtBody() {
 
   return (
     <section>
-      <h2>매일성경</h2>
-      <article className="relative bg-slate-100 p-4 rounded-xl">
+      <h2>매일성경 (개역개정)</h2>
+      <article className="relative p-4 bg-slate-100 rounded-xl">
+        <button
+          className="absolute px-1.5 text-sm border border-current top-4 right-4"
+          disabled={!qtBody}
+          onClick={copy}
+          type="button"
+        >
+          복사하기
+        </button>
         {qtBody ? (
           <>
             <h3 className="mb-4 font-bold">
