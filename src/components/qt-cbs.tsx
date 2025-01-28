@@ -7,26 +7,12 @@ import { db } from "../firebase";
 interface ICbs {
   dateString: string;
   mp3: string;
+  pageUri?: string;
 }
 
 export default function QtCbs() {
-  // const [isLoading, setLoading] = useState(false);
   const [cbs, setCbs] = useState<ICbs>();
-
-  // const onBtnClick = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const res = await fetch(API_BASE_URL + "bible-today/cbs");
-  //     const { mp3 } = await res.json();
-  //     const cbs = { dateString, mp3 };
-  //     setCbs(cbs);
-  //     await addDoc(collection(db, "todayBibleAudios"), cbs);
-  //   } catch (error) {
-  //     console.error(error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  const mp3Name = cbs?.mp3.slice(cbs?.mp3.lastIndexOf("/") + 1) || "";
 
   useEffect(() => {
     (async () => {
@@ -45,8 +31,8 @@ export default function QtCbs() {
 
       try {
         const res = await fetch(API_BASE_URL + "bible-today/cbs");
-        const { mp3 } = await res.json();
-        const cbs = { dateString, mp3 };
+        const { mp3, pageUri } = await res.json();
+        const cbs = { dateString, mp3, pageUri };
         setCbs(cbs);
         await addDoc(collection(db, "todayBibleAudios"), cbs);
       } catch (error) {
@@ -59,9 +45,19 @@ export default function QtCbs() {
     <section>
       <h2>CBS (박대영 목사님)</h2>
       {cbs ? (
-        <audio controls className="w-full">
-          <source src={cbs.mp3}></source>
-        </audio>
+        <>
+          <audio controls className="w-full">
+            <source src={cbs.mp3}></source>
+          </audio>
+          <div className="space-x-2">
+            <a download={mp3Name} href={cbs.mp3}>
+              다운로드
+            </a>
+            <a href={cbs.pageUri} target="_blank">
+              페이지 이동
+            </a>
+          </div>
+        </>
       ) : (
         <ClipLoader size={12} />
       )}

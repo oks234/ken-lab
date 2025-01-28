@@ -47,20 +47,20 @@ function Verses({ verses }: { verses: IVerse[] }) {
 
 export default function QtBody() {
   const [qtBody, setQtBody] = useState<IQtBody>();
+  const titleRange = qtBody ? `${qtBody.koTitle} ${qtBody.range}` : "";
 
   async function copy() {
     if (!qtBody) return alert("복사할 내용이 없습니다.");
     const content = ""
-      .concat(`${qtBody.koTitle} ${qtBody.range}\n\n`)
+      .concat(`${titleRange}\n`)
       .concat(
         qtBody.verses.reduce(
-          (result, verse, index) =>
-            result + (index === 0 ? "" : "\n") + verse.num + " " + verse.info,
+          (result, verse) => result + "\n" + verse.num + " " + verse.info,
           ""
         )
       );
-      await navigator.clipboard.writeText(content);
-      alert('본문을 복사했습니다.\n\n' + content);
+    await navigator.clipboard.writeText(content);
+    alert(titleRange + "\n\n본문을 복사했습니다.");
     return content;
   }
 

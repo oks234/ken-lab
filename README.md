@@ -55,6 +55,8 @@ export default tseslint.config({
 
 &check; QT 본문 복사 기능 추가
 
+&check; QT CBS 상세 정보, 다운로드 추가
+
 QT 관리 페이지 추가
 
 API 리팩토링
